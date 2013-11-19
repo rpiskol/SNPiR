@@ -1,0 +1,9 @@
+chr20	3170172	2,2	T	C	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1
+chr20	3470016	2,2	G	A	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1
+chr20	5544502	2,2	A	G	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1
+chr20	7067157	2,2	T	G	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1
+chr20	25733297	1,1	G	C	1.000	failed_totalcover
+chr20	25733312	2,2	G	A	1.000	failed_totalcover
+chr20	25733334	2,2	G	A	1.000	failed_totalcover
+chr20	48713049	2,2	G	A	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1
+chr20	52528106	2,2	C	T	1.000	failed_freq #mismatches: 1 #minimumMismatchesNecessary: 1 #discarded mismatch reads: 1

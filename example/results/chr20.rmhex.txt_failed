@@ -1,0 +1,12 @@
+chr20	1099329	0,0	A	G	NAN	reason: low basequal;
+chr20	4767218	0,0	A	G	NAN	reason: low basequal;
+chr20	7014445	0,0	T	C	NAN	reason: low basequal;
+chr20	15966230	4,0	T	C	NAN	reason: low basequal; mismatch at readend;
+chr20	25966197	0,0	T	C	NAN	reason: low basequal;
+chr20	35862708	0,0	T	C	NAN	reason: low basequal;
+chr20	36030939	0,0	G	C	NAN	reason: low basequal;
+chr20	44691350	2,0	T	G	NAN	reason: low basequal;
+chr20	52186784	0,0	A	G	NAN	reason: low basequal;
+chr20	57290347	0,0	C	G	NAN	reason: low basequal;
+chr20	61664096	0,0	T	C	NAN	reason: low basequal; mismatch at readend;
+chr20	62331989	0,0	T	G	NAN	reason: low basequal;

@@ -1,0 +1,1 @@
+grep -v '#' $1 | awk -v qual=$3 '$6>=qual' | awk '{OFS="\t";split($10,a,":");split(a[2],b,",");print $1"\t"$2"\t"b[1]+b[2]","b[2]"\t"$4"\t"$5"\t"b[2]/(b[1]+b[2])}' > $2

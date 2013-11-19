@@ -1,0 +1,42 @@
+SNPiR: Reliable Identification of Genomic Variants Using RNA-seq Data 
+
+Getting Ready:
+Step 1. download necessary files:
+    from UCSC browser: hg19 genome (make sure to get ALL the chromosomes - including *random and *hap*),
+                       hg19 repeat masker annotation (in bed format),
+                       Refseq, UCSC, Gencode, Ensembl gene annotation files
+                          - use "all fields from selected table" output format
+                          - concatenate all gene annotation files
+                            (careful: the UCSC gene annotation file is missing the first field, so make sure to add it  - awk '{OFS="\t";print "1",$0}')
+                          - sort concatenated gene annotation file based on chromosome and transcript start (sort -k3,3 -5,5n)
+    from rnaedit.com : list of known RNA editing sites (in bed format),
+Step 2. download required software: samtools, bedtools, command line blat, perl, bwa, GATK, picardtools
+Step 3. change paths to your samtools, bedtools and blat executables in file config.pm in the SNPiR package
+
+
+Mapping reads:
+Step 1. Concatenate splice junction sequence file with hg19 reference genome (junction files are provided at http://lilab.stanford.edu/SNPiR/junctions/)
+Step 2. Create bwa index for this concatenated file
+Step 3. Map reads with bwa as single end sequences to this reference file
+Step 4. Combine single reads into one file 
+Step 5. Convert the position of reads that map across splicing junctions onto the genome: java -Xmx2g convertCoordinates < in.sam > out.sam
+Step 6. Use Picard MarkDuplicates to remove duplicate reads
+Step 7. Filter out unmapped reads and reads with mapping quality < 10 using samtools
+Step 8. Index this mapping file with samtools
+Step 9. Perform indel realignment and base quality score recalibration using IndelRealigner, CountCovariates, and TableRecalibration in GATK (see GATK webpage for best practices) 
+Note: use the -U ALLOW_N_CIGAR_READS option for the RealignerTargetCreator step.
+Note: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper
+
+Call/filter Variants (see EXAMPLES.sh for more information):
+Step 1. Initial variant calling with GATK UnifiedGenotyper: options of -stand_call_conf 0 -stand_emit_conf 0
+ote: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper
+
+Step 2. Convert VCF format to our custom variant format and filter variants with low quality: ConvertVCF.sh in.vcf out.txt MINQUAL
+Step 3. Remove mismatches in first 6 bp of reads: perl filter_mismatch_first6bp.pl
+Step 4. Use bedtools to remove sites in repetitive regions based on RepeatMasker annotation
+
+Further filtering:
+Step 1. Filter intronic candidates that are within 4 bp of splicing junctions: perl filter_intron_near_splicejuncts.pl
+Step 2. Filter candidates in homopolymer runs: perl filter_homopolymer_nucleotides.pl
+Step 3. Use BLAT to ensure unique mapping: perl BLAT_candidates.pl
+Step 4. Use bedtools to separate out candidates that are known RNA editing sites
