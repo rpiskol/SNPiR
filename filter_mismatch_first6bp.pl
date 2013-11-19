@@ -12,7 +12,7 @@ use SNPiR::config;
 # $Revision: $
 # Authors: Robert Piskol ( piskol@stanford.edu ), Gokul Ramaswami ( gokulr@stanford.edu )
 # Last modification $Author: piskol $
-#perl script that runs converts reads mapping to splice reference back to genomic coordinates
+# perl script that checks for mismatches in the first 6bp of each read
 my ($INPUTFILE,$OUTPUTFILE,$BAMFILE,$ILLUMINAQUALS,$HELP);
 my $QUALOFFSET = 33;
 my $MINBASEQUAL = 25;

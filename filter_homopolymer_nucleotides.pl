@@ -12,7 +12,7 @@ use SNPiR::config;
 # $Revision: $
 # Authors: Robert Piskol ( piskol@stanford.edu ), Gokul Ramaswami ( gokulr@stanford.edu )
 # Last modification $Author: piskol $
-#perl script that screens the if variant is in homopolymer
+# perl script that screens if the variant is located in a homopolymer
 #inputs: input file of edits, output file name
 my ($INPUTFILE,$OUTPUTFILE,$REFERENCEGENOME,$HELP);
 
