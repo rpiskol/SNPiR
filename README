@@ -2,7 +2,7 @@ SNPiR: Reliable Identification of Genomic Variants Using RNA-seq Data
 
 Getting Ready:
 Step 1. download necessary files:
-    from UCSC browser: hg19 genome (make sure to get ALL the chromosomes - including *random and *hap*),
+    from UCSC browser: hg19 genome (make sure to get ALL the chromosomes - http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz),
                        hg19 repeat masker annotation (in bed format),
                        Refseq, UCSC, Gencode, Ensembl gene annotation files
                           - use "all fields from selected table" output format
