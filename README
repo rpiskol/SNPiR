@@ -25,12 +25,11 @@ Step 7. Filter out unmapped reads and reads with mapping quality < 10 using samt
 Step 8. Index this mapping file with samtools
 Step 9. Perform indel realignment and base quality score recalibration using IndelRealigner, CountCovariates, and TableRecalibration in GATK (see GATK webpage for best practices) 
 Note: use the -U ALLOW_N_CIGAR_READS option for the RealignerTargetCreator step.
-Note: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper
+Note: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper.
+Note: use the original hg19 genome (without splicing junctions) as reference 
 
 Call/filter Variants (see EXAMPLES.sh for more information):
 Step 1. Initial variant calling with GATK UnifiedGenotyper: options of -stand_call_conf 0 -stand_emit_conf 0
-ote: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper
-
 Step 2. Convert VCF format to our custom variant format and filter variants with low quality: ConvertVCF.sh in.vcf out.txt MINQUAL
 Step 3. Remove mismatches in first 6 bp of reads: perl filter_mismatch_first6bp.pl
 Step 4. Use bedtools to remove sites in repetitive regions based on RepeatMasker annotation
