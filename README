@@ -8,7 +8,7 @@ Step 1. download necessary files:
                           - use "all fields from selected table" output format
                           - concatenate all gene annotation files
                             (careful: the UCSC gene annotation file is missing the first field, so make sure to add it  - awk '{OFS="\t";print "1",$0}')
-                          - sort concatenated gene annotation file based on chromosome and transcript start (sort -k3,3 -5,5n)
+                          - sort concatenated gene annotation file based on chromosome and transcript start (sort -k3,3 -k5,5n)
     from rnaedit.com : list of known RNA editing sites (in bed format),
 Step 2. download required software: samtools, bedtools, command line blat, perl, bwa, GATK, picardtools
 Step 3. change paths to your samtools, bedtools and blat executables in file config.pm in the SNPiR package
@@ -26,7 +26,8 @@ Step 8. Index this mapping file with samtools
 Step 9. Perform indel realignment and base quality score recalibration using IndelRealigner, CountCovariates, and TableRecalibration in GATK (see GATK webpage for best practices) 
 Note: use the -U ALLOW_N_CIGAR_READS option for the RealignerTargetCreator step.
 Note: use the -out_mode EMIT_VARIANTS_ONLY option for the UnifiedGenotyper.
-Note: use the original hg19 genome (without splicing junctions) as reference 
+Note: use the original hg19 genome (without splicing junctions) as reference for the UnifiedGenotyper
+Note: use the -glm SNP option for the UnifiedGenotyper to call single nucleotide variants only.
 
 Call/filter Variants (see EXAMPLES.sh for more information):
 Step 1. Initial variant calling with GATK UnifiedGenotyper: options of -stand_call_conf 0 -stand_emit_conf 0
@@ -39,3 +40,12 @@ Step 1. Filter intronic candidates that are within 4 bp of splicing junctions: p
 Step 2. Filter candidates in homopolymer runs: perl filter_homopolymer_nucleotides.pl
 Step 3. Use BLAT to ensure unique mapping: perl BLAT_candidates.pl
 Step 4. Use bedtools to separate out candidates that are known RNA editing sites
+
+Output file format:
+1.) chromosome
+2.) position-1
+3.) position
+4.) coverage, number of non-reference nucleotides
+5.) reference nucleotide
+6.) non-reference nucleotide
+7.) frequency of non-reference nucleotide
