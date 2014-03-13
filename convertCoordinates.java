@@ -46,14 +46,14 @@ public class convertCoordinates {
 		 */
 		String cigar = fields[5];
 		String[] cigarnumsTmp = cigar.split("[MIDNSHP]");
-        int[] cigarnums = new int[cigarnumsTmp.length];
-        int cigarsum = 0;
-        for(int i = 0; i < cigarnumsTmp.length; i++){
-        	cigarnums[i] = Integer.parseInt(cigarnumsTmp[i]);
-        	cigarsum += cigarnums[i]; 
-        }
-        String cigarlettersTmp[] = cigar.split("[0-9]+");//.toString().toCharArray();
-        String cigarletters[] = Arrays.copyOfRange(cigarlettersTmp, 1, cigarlettersTmp.length);
+		int[] cigarnums = new int[cigarnumsTmp.length];
+		int cigarsum = 0;
+		for(int i = 0; i < cigarnumsTmp.length; i++){
+			cigarnums[i] = Integer.parseInt(cigarnumsTmp[i]);
+			cigarsum += cigarnums[i]; 
+		}
+		String cigarlettersTmp[] = cigar.split("[0-9]+");//.toString().toCharArray();
+		String cigarletters[] = Arrays.copyOfRange(cigarlettersTmp, 1, cigarlettersTmp.length);
 		
         /*
 		 * get exon starts and ends as well as individual and cumulative exon lengths
@@ -88,13 +88,13 @@ public class convertCoordinates {
 		}
 
         
-        if(cigar.equals("*")){
-        	newcigar = "*";
-        }
-        else{
-        	int currCigarPos = 0;
+		if(cigar.equals("*")){
+			newcigar = "*";
+		}
+		else{
+			int currCigarPos = 0;
         	int currReadPos = exonEnds.get(readStartIdx) - readStartAbs + 1;
-            int readRemain = cigarsum;
+        	int readRemain = cigarsum;
         	boolean found = false;
 
         	for(int i = 0; i < cigarnums.length; i++){
@@ -141,10 +141,10 @@ public class convertCoordinates {
 		
 		String sep = "\t";
 		String newLine = fields[0] + sep + fields[1] + sep + chrom[0] + sep + readStartAbs + sep + fields[4] + sep + newcigar + sep;
-        for(int i = 6; i < fields.length-1; i++){
-        	newLine += fields[i]+sep;
-        }
-        newLine += fields[fields.length-1];
+		for(int i = 6; i < fields.length-1; i++){
+			newLine += fields[i]+sep;
+		}
+		newLine += fields[fields.length-1];
         
 		return newLine;
 	}
@@ -152,18 +152,16 @@ public class convertCoordinates {
 
 	public static void main(String[] args) {
 		try {
-	       java.io.BufferedReader stdin = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-	       String line;
+			java.io.BufferedReader stdin = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+			String line;
 	       
-	       //iterate through each line of the sam file
+			//iterate through each line of the sam file
 			while((line = stdin.readLine()) !=null){
-				 String convertedLine = convertLine(line);
-				 System.out.println(convertedLine);
+				String convertedLine = convertLine(line);
+				System.out.println(convertedLine);
 			}
 		}	  
 		catch (java.io.IOException e) { System.out.println(e); }
 		catch (NumberFormatException e) { System.out.println(e); }
 	}
-
-
 }
