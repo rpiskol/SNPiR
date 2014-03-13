@@ -55,7 +55,7 @@ public class convertCoordinates {
 		String cigarlettersTmp[] = cigar.split("[0-9]+");//.toString().toCharArray();
 		String cigarletters[] = Arrays.copyOfRange(cigarlettersTmp, 1, cigarlettersTmp.length);
 		
-        /*
+		/*
 		 * get exon starts and ends as well as individual and cumulative exon lengths
 		 */
 		int len = 0;
@@ -93,59 +93,50 @@ public class convertCoordinates {
 		}
 		else{
 			int currCigarPos = 0;
-        	int currReadPos = exonEnds.get(readStartIdx) - readStartAbs + 1;
-        	int readRemain = cigarsum;
-        	boolean found = false;
+			int currReadPos = exonEnds.get(readStartIdx) - readStartAbs + 1;
+			int readRemain = cigarsum;
+			boolean found = false;
 
-        	for(int i = 0; i < cigarnums.length; i++){
+			for(int i = 0; i < cigarnums.length; i++){
         		
-        		if(!cigarletters[i].equals("I") && !cigarletters[i].equals("S") && !cigarletters[i].equals("H")){        			
-        			currCigarPos += cigarnums[i];
-        		}
+				if(!cigarletters[i].equals("I") && !cigarletters[i].equals("S") && !cigarletters[i].equals("H")){        			
+					currCigarPos += cigarnums[i];
+				}
         		
-        		while(currCigarPos > currReadPos && !found && readStartIdx < exonEnds.size()-1){
+				while(currCigarPos > currReadPos && !found && readStartIdx < exonEnds.size()-1){
+					int len1 = cigarnums[i] - (currCigarPos - currReadPos);
+					cigarnums[i] -= len1;
+					int Nlength = exonStarts.get(readStartIdx+1) - exonEnds.get(readStartIdx) - 1 ;
+        			
+					if(len1>0){//only include current cigarchar and length if it is larger than zero
+						newcigar = newcigar + String.valueOf(len1) + cigarletters[i] + String.valueOf(Nlength) + "N";
+					}
+					else{
+						newcigar = newcigar + String.valueOf(Nlength) + "N";
+					}
+					readRemain -= len1;
 
+					readStartIdx++;
         			
-        			int len1 = cigarnums[i] - (currCigarPos - currReadPos);
-        			cigarnums[i] -= len1;
-        			int Nlength = exonStarts.get(readStartIdx+1) - exonEnds.get(readStartIdx) - 1 ;
-        			
-        			
-        			if(len1>0){//only include current cigarchar and length if it is larger than zero
-        				newcigar = newcigar + String.valueOf(len1) + cigarletters[i] + String.valueOf(Nlength) + "N";
-        			}
-        			else{
-        				newcigar = newcigar + String.valueOf(Nlength) + "N";
-        			}
-        			readRemain -= len1;
-        			
-        			readStartIdx++;
-        			
-        			if(exonEnds.get(readStartIdx) - exonStarts.get(readStartIdx) + 1 < readRemain){
-        				currReadPos += (exonEnds.get(readStartIdx) - exonStarts.get(readStartIdx) + 1);
-        			
-        			}
-        			else{
-        				currReadPos += readRemain;
-        			}
-        			
-        		}
+					if(exonEnds.get(readStartIdx) - exonStarts.get(readStartIdx) + 1 < readRemain){
+						currReadPos += (exonEnds.get(readStartIdx) - exonStarts.get(readStartIdx) + 1);
+					}
+					else{
+						currReadPos += readRemain;
+					}
+				}
+				if(cigarnums[i]>0){
+					newcigar = newcigar + String.valueOf(cigarnums[i]) + cigarletters[i];
+				}
+			}
+		}
 
-        		if(cigarnums[i]>0){
-        			newcigar = newcigar + String.valueOf(cigarnums[i]) + cigarletters[i];
-        		}
-
-        	}
-        }
-
-		
 		String sep = "\t";
 		String newLine = fields[0] + sep + fields[1] + sep + chrom[0] + sep + readStartAbs + sep + fields[4] + sep + newcigar + sep;
 		for(int i = 6; i < fields.length-1; i++){
 			newLine += fields[i]+sep;
 		}
 		newLine += fields[fields.length-1];
-        
 		return newLine;
 	}
 
