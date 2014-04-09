@@ -123,7 +123,7 @@ while (<$INPUT>) {
 		print $OUTPUT "\n";
 	}
 	if ($newmismatch < $minmismatch) {
-		my $explain = "varcount below threshold due to";
+		my $explain = " varcount below threshold due to";
 		$explain .= ' low basequal;' if($basequalFail);
 		$explain .= ' mismatch at readend;' if($readPosFail);
 		print $OUTPUT_failed "$fields[0]\t$fields[1]\t$newcov,$newmismatch\t$fields[3]\t$fields[4]\tNAN\treason:$explain";
